@@ -25,59 +25,30 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
-        // Mouse look
         MouseLook();
 
-        // Movement
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        Vector3 move = transform.right * x + transform.forward * z;
+        // Read inputs and prepare desired move vector
+        ReadMovementInput(out float x, out float z);
+        Vector3 desiredMove = transform.right * x + transform.forward * z;
 
+        // Grounded handling (speed, input dir, noise)
         if (controller.isGrounded)
         {
-            isJumped = false;
-            currentSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : moveSpeed;
-            if(Input.GetKey(KeyCode.LeftControl))
-            {
-                currentSpeed = stealthSpeed;
-            }
-            inputDir = move.normalized;
-
-            if(currentSpeed == moveSpeed && (x != 0 || z != 0))
-            {
-                noiseVal = Mathf.Lerp(noiseVal, 0.5f, Time.deltaTime * 2f);
-            }
-            else if(currentSpeed == runSpeed && (x != 0 || z != 0))
-            {
-                noiseVal = Mathf.Lerp(noiseVal, 1f, Time.deltaTime * 2f);
-            }
-            else
-            {
-                noiseVal = 0;
-            }
-        }
-        if (Input.GetButtonDown("Jump") && controller.isGrounded)
-        {
-            velocityY = Mathf.Sqrt(jumpHeight * 2f * gravity);
-            isJumped = true;
+            HandleGrounded(desiredMove, x, z);
         }
 
-        move = isJumped ? inputDir * currentSpeed : move * currentSpeed;
+        HandleJump();
 
-        // Apply gravity
-        if (controller.isGrounded && velocityY < 0)
-        {
-            velocityY = -2f; // Small negative value to keep the player grounded
-        }
-        velocityY -= gravity * Time.deltaTime;
-        move.y = velocityY;
+        // Choose movement vector depending on jump state (preserve original behavior)
+        Vector3 move = isJumped ? inputDir * currentSpeed : desiredMove * currentSpeed;
 
+        // Apply gravity and move controller
+        ApplyGravity(ref move);
         controller.Move(move * Time.deltaTime);
     }
 
@@ -89,5 +60,55 @@ public class PlayerMovement : MonoBehaviour
         rotX -= mouseY;
         rotX = Mathf.Clamp(rotX, -90f, 90f);
         cam.transform.localRotation = Quaternion.Euler(rotX, 0f, 0f);
+    }
+
+    void ReadMovementInput(out float x, out float z)
+    {
+        x = Input.GetAxis("Horizontal");
+        z = Input.GetAxis("Vertical");
+    }
+
+    void HandleGrounded(Vector3 moveVec, float x, float z)
+    {
+        isJumped = false;
+        currentSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : moveSpeed;
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            currentSpeed = stealthSpeed;
+        }
+
+        inputDir = moveVec.normalized;
+
+        if (currentSpeed == moveSpeed && (x != 0 || z != 0))
+        {
+            noiseVal = Mathf.Lerp(noiseVal, 0.5f, Time.deltaTime * 2f);
+        }
+        else if (currentSpeed == runSpeed && (x != 0 || z != 0))
+        {
+            noiseVal = Mathf.Lerp(noiseVal, 1f, Time.deltaTime * 2f);
+        }
+        else
+        {
+            noiseVal = 0;
+        }
+    }
+
+    void HandleJump()
+    {
+        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        {
+            velocityY = Mathf.Sqrt(jumpHeight * 2f * gravity);
+            isJumped = true;
+        }
+    }
+
+    void ApplyGravity(ref Vector3 move)
+    {
+        if (controller.isGrounded && velocityY < 0)
+        {
+            velocityY = -2f; // Small negative value to keep the player grounded
+        }
+        velocityY -= gravity * Time.deltaTime;
+        move.y = velocityY;
     }
 }

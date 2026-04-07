@@ -8,11 +8,6 @@ public class EnemyAI : MonoBehaviour
     public float HearingRange = 10f;
     public float ViewAngle = 60f;
 
-    NavMeshAgent agent;
-    PlayerMovement player;
-
-    bool canSee;
-
     // Last seen system
     bool hasLastSeen = false;
     Vector3 lastSeen;
@@ -20,6 +15,11 @@ public class EnemyAI : MonoBehaviour
     // Reaction delay system (for horror feel)
     bool reacting = false;
     float reactionTimer;
+
+    bool canSee;
+
+    NavMeshAgent agent;
+    PlayerMovement player;
 
     private void Start()
     {
