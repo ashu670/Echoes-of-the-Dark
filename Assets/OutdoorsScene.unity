@@ -409,6 +409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 125951530}
   - component: {fileID: 125951532}
+  - component: {fileID: 125951533}
   - component: {fileID: 125951531}
   m_Layer: 0
   m_Name: Area Light (4)
@@ -638,6 +639,22 @@ Light:
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &125951533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125951529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054779f8ad13753459919af79a069abd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightManagement
+  litRange: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &274932941
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,7 +667,7 @@ GameObject:
   - component: {fileID: 274932945}
   - component: {fileID: 274932944}
   - component: {fileID: 274932943}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1287,6 +1304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 481332900}
   - component: {fileID: 481332902}
+  - component: {fileID: 481332903}
   - component: {fileID: 481332901}
   m_Layer: 0
   m_Name: Area Light (1)
@@ -1516,6 +1534,22 @@ Light:
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &481332903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481332899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054779f8ad13753459919af79a069abd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightManagement
+  litRange: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &570306724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,7 +1562,7 @@ GameObject:
   - component: {fileID: 570306728}
   - component: {fileID: 570306727}
   - component: {fileID: 570306726}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1640,7 +1674,7 @@ GameObject:
   - component: {fileID: 601052820}
   - component: {fileID: 601052819}
   - component: {fileID: 601052818}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1790,7 +1824,7 @@ GameObject:
   - component: {fileID: 800877875}
   - component: {fileID: 800877874}
   - component: {fileID: 800877873}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2141,7 +2175,7 @@ GameObject:
   - component: {fileID: 1086872953}
   - component: {fileID: 1086872952}
   - component: {fileID: 1086872951}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2253,7 +2287,7 @@ GameObject:
   - component: {fileID: 1110954112}
   - component: {fileID: 1110954111}
   - component: {fileID: 1110954110}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3015,6 +3049,53 @@ Light:
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &1411315745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1411315747}
+  - component: {fileID: 1411315746}
+  m_Layer: 0
+  m_Name: ParanormalManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1411315746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411315745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81ddba1692bc4040981f5dc20fa5d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParanormalManager
+  events: []
+  minCooldown: 5
+  maxCooldown: 12
+--- !u!4 &1411315747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411315745}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.11935, y: 2.71114, z: 5.625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1526749809
 GameObject:
   m_ObjectHideFlags: 0
@@ -3058,7 +3139,7 @@ GameObject:
   - component: {fileID: 1543582742}
   - component: {fileID: 1543582741}
   - component: {fileID: 1543582740}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3170,7 +3251,7 @@ GameObject:
   - component: {fileID: 1561382848}
   - component: {fileID: 1561382847}
   - component: {fileID: 1561382846}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3280,6 +3361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1574887048}
   - component: {fileID: 1574887050}
+  - component: {fileID: 1574887051}
   - component: {fileID: 1574887049}
   m_Layer: 0
   m_Name: Area Light (2)
@@ -3509,6 +3591,22 @@ Light:
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1574887051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574887047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054779f8ad13753459919af79a069abd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightManagement
+  litRange: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1627388312
 GameObject:
   m_ObjectHideFlags: 0
@@ -3659,9 +3757,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a2bffb22ffb2841876eb2f25d0858d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  Hunting: 0
   HearingRange: 10
   ViewAngle: 60
+  huntSanity: 20
+  currentState: 0
+  paranormalManager: {fileID: 1411315746}
 --- !u!1 &1661372800
 GameObject:
   m_ObjectHideFlags: 0
@@ -3738,7 +3838,7 @@ GameObject:
   - component: {fileID: 1709228811}
   - component: {fileID: 1709228810}
   - component: {fileID: 1709228809}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3850,7 +3950,7 @@ GameObject:
   - component: {fileID: 1772306254}
   - component: {fileID: 1772306253}
   - component: {fileID: 1772306252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4460,9 +4560,12 @@ MonoBehaviour:
   gravity: 19.62
   jumpHeight: 1.5
   noiseVal: 0
+  sanityTickInterval: 1
   sanity: 100
   drainRate: 2
+  lightHit: 0
   isDead: 0
+  isDark: 0
   cam: {fileID: 1823688466}
 --- !u!143 &1889396322
 CharacterController:
@@ -4624,7 +4727,7 @@ GameObject:
   - component: {fileID: 2046272949}
   - component: {fileID: 2046272948}
   - component: {fileID: 2046272947}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4736,7 +4839,7 @@ GameObject:
   - component: {fileID: 2059959666}
   - component: {fileID: 2059959665}
   - component: {fileID: 2059959664}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4846,3 +4949,4 @@ SceneRoots:
   - {fileID: 1627388317}
   - {fileID: 1273595128}
   - {fileID: 1661372802}
+  - {fileID: 1411315747}

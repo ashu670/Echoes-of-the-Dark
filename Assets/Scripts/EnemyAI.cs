@@ -4,9 +4,12 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
-    public bool Hunting = true;
     public float HearingRange = 10f;
     public float ViewAngle = 60f;
+    public float huntSanity = 20f;
+
+    public EnemyState currentState;
+    public ParanormalManager paranormalManager;
 
     // Last seen system
     bool hasLastSeen = false;
@@ -29,9 +32,40 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (Hunting && !player.isDead)
+        if (player == null || player.isDead) return;
+
+        UpdateState();
+        Debug.Log("Enemy State: " + currentState);
+
+        switch (currentState)
         {
-            Hunt();
+            case EnemyState.Idle:
+                Patrol();
+                break;
+
+            case EnemyState.Stalking:
+                ParanormalBehavior();
+                break;
+
+            case EnemyState.Hunting:
+                Hunt();
+                break;
+        }
+    }
+
+    void UpdateState()
+    {
+        if (player.sanity < huntSanity)
+        {
+            currentState = EnemyState.Hunting;
+        }
+        else if (player.sanity < 60f)
+        {
+            currentState = EnemyState.Stalking;
+        }
+        else
+        {
+            currentState = EnemyState.Idle;
         }
     }
 
@@ -39,7 +73,7 @@ public class EnemyAI : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, player.transform.position);
         Debug.Log(distance);
-        if(distance < 1.5f)
+        if (distance < 1.5f)
         {
             player.isDead = true;
             player.Death();
@@ -117,4 +151,30 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
+
+    void ParanormalBehavior()
+    {
+        // EnemyAI decides WHEN to trigger events; ParanormalManager decides WHAT event occurs
+        if (paranormalManager != null)
+        {
+            paranormalManager.TryTriggerEvent(player);
+        }
+
+        // Keep light patrol movement so the enemy doesn't feel static
+        Patrol();
+    }
+}
+
+public enum EnemyState
+{
+    Idle,
+    Stalking,
+    Hunting
+}
+
+public enum EventType
+{
+    Footstep,
+    Appearance,
+    Whisper
 }

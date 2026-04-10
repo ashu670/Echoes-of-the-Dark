@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -12,17 +13,20 @@ public class PlayerSystem : MonoBehaviour
     public float jumpHeight = 1.5f;
     [Range(0f, 1f)]
     public float noiseVal;
+    public float sanityTickInterval = 1f;
     public float sanity = 100f;
     public float drainRate = 2f;
+    public int lightHit = 0;
     public bool isDead = false;
+    public bool isDark;
 
     public Camera cam;
 
     float velocityY;
     float rotX;
     float currentSpeed;
+    float sanityTimer;
     bool isJumped;
-    bool isDark;
 
 
     CharacterController controller;
@@ -58,9 +62,35 @@ public class PlayerSystem : MonoBehaviour
             // Apply gravity and move controller
             ApplyGravity(ref move);
             controller.Move(move * Time.deltaTime);
+
+            CheckLit();
+            HandleSanity();
         }
     }
 
+    void CheckLit()
+    {
+        isDark = lightHit == 0;
+    }
+
+    void HandleSanity()
+    {
+        sanityTimer -= Time.deltaTime;
+
+        if( sanityTimer <= 0)
+        {
+            sanityTimer = sanityTickInterval;
+            if (isDark)
+            {
+                sanity -= drainRate;
+            }
+            else
+            {
+                sanity += drainRate * 0.5f;
+            }
+            sanity = Mathf.Clamp(sanity, 0f, 100f);
+        }
+    }
     void MouseLook()
     {
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
@@ -119,11 +149,6 @@ public class PlayerSystem : MonoBehaviour
         }
         velocityY -= gravity * Time.deltaTime;
         move.y = velocityY;
-    }
-
-    void checkLights()
-    {
-
     }
 
     public void Death()
