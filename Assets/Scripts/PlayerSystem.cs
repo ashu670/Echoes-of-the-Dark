@@ -1,7 +1,8 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerSystem : MonoBehaviour
 {
     public float moveSpeed = 2f;
     public float runSpeed = 5f;
@@ -11,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight = 1.5f;
     [Range(0f, 1f)]
     public float noiseVal;
+    public float sanity = 100f;
+    public float drainRate = 2f;
+    public bool isDead = false;
 
     public Camera cam;
 
@@ -18,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     float rotX;
     float currentSpeed;
     bool isJumped;
+    bool isDark;
+
 
     CharacterController controller;
     Vector3 inputDir;
@@ -30,26 +36,29 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        MouseLook();
-
-        // Read inputs and prepare desired move vector
-        ReadMovementInput(out float x, out float z);
-        Vector3 desiredMove = transform.right * x + transform.forward * z;
-
-        // Grounded handling (speed, input dir, noise)
-        if (controller.isGrounded)
+        if (!isDead)
         {
-            HandleGrounded(desiredMove, x, z);
+            MouseLook();
+
+            // Read inputs and prepare desired move vector
+            ReadMovementInput(out float x, out float z);
+            Vector3 desiredMove = transform.right * x + transform.forward * z;
+
+            // Grounded handling (speed, input dir, noise)
+            if (controller.isGrounded)
+            {
+                HandleGrounded(desiredMove, x, z);
+            }
+
+            HandleJump();
+
+            // Choose movement vector depending on jump state (preserve original behavior)
+            Vector3 move = isJumped ? inputDir * currentSpeed : desiredMove * currentSpeed;
+
+            // Apply gravity and move controller
+            ApplyGravity(ref move);
+            controller.Move(move * Time.deltaTime);
         }
-
-        HandleJump();
-
-        // Choose movement vector depending on jump state (preserve original behavior)
-        Vector3 move = isJumped ? inputDir * currentSpeed : desiredMove * currentSpeed;
-
-        // Apply gravity and move controller
-        ApplyGravity(ref move);
-        controller.Move(move * Time.deltaTime);
     }
 
     void MouseLook()
@@ -110,5 +119,16 @@ public class PlayerMovement : MonoBehaviour
         }
         velocityY -= gravity * Time.deltaTime;
         move.y = velocityY;
+    }
+
+    void checkLights()
+    {
+
+    }
+
+    public void Death()
+    {
+        isDead = true;
+        moveSpeed = runSpeed = stealthSpeed = 0f;
     }
 }

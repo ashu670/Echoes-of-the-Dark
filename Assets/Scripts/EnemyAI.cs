@@ -19,17 +19,17 @@ public class EnemyAI : MonoBehaviour
     bool canSee;
 
     NavMeshAgent agent;
-    PlayerMovement player;
+    PlayerSystem player;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerSystem>();
     }
 
     void Update()
     {
-        if (Hunting)
+        if (Hunting && !player.isDead)
         {
             Hunt();
         }
@@ -38,6 +38,13 @@ public class EnemyAI : MonoBehaviour
     void Hunt()
     {
         float distance = Vector3.Distance(transform.position, player.transform.position);
+        Debug.Log(distance);
+        if(distance < 1.5f)
+        {
+            player.isDead = true;
+            player.Death();
+            return;
+        }
 
         // ----------- VISION CHECK -----------
         Vector3 dirToPlayer = (player.transform.position - transform.position).normalized;

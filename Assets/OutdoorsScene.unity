@@ -584,7 +584,7 @@ Light:
   serializedVersion: 13
   m_Type: 3
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 212.48466
+  m_Intensity: 1633.2219
   m_Range: 19.09
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1462,7 +1462,7 @@ Light:
   serializedVersion: 13
   m_Type: 3
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 212.48466
+  m_Intensity: 1633.222
   m_Range: 19.09
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3455,7 +3455,7 @@ Light:
   serializedVersion: 13
   m_Type: 3
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 212.48466
+  m_Intensity: 1633.2219
   m_Range: 19.09
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3659,7 +3659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a2bffb22ffb2841876eb2f25d0858d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  Hunting: 1
+  Hunting: 0
   HearingRange: 10
   ViewAngle: 60
 --- !u!1 &1661372800
@@ -4460,6 +4460,9 @@ MonoBehaviour:
   gravity: 19.62
   jumpHeight: 1.5
   noiseVal: 0
+  sanity: 100
+  drainRate: 2
+  isDead: 0
   cam: {fileID: 1823688466}
 --- !u!143 &1889396322
 CharacterController:
