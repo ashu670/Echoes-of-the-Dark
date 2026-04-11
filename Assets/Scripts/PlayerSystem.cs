@@ -15,8 +15,13 @@ public class PlayerSystem : MonoBehaviour
     public float noiseVal;
     public float sanityTickInterval = 1f;
     public float sanity = 100f;
+    public float SanityTickRate = 1f;
     public float drainRate = 2f;
+<<<<<<< HEAD
     public int lightHit = 0;
+=======
+    public float lightHit = 0;
+>>>>>>> 62b2995 (sanity system added)
     public bool isDead = false;
     public bool isDark;
 
@@ -25,7 +30,11 @@ public class PlayerSystem : MonoBehaviour
     float velocityY;
     float rotX;
     float currentSpeed;
+<<<<<<< HEAD
     float sanityTimer;
+=======
+    float timer;
+>>>>>>> 62b2995 (sanity system added)
     bool isJumped;
 
 
@@ -63,6 +72,7 @@ public class PlayerSystem : MonoBehaviour
             ApplyGravity(ref move);
             controller.Move(move * Time.deltaTime);
 
+<<<<<<< HEAD
             CheckLit();
             HandleSanity();
         }
@@ -91,6 +101,33 @@ public class PlayerSystem : MonoBehaviour
             sanity = Mathf.Clamp(sanity, 0f, 100f);
         }
     }
+=======
+            isDark = lightHit == 0;
+
+            timer -= Time.deltaTime;
+            if(timer < 0)
+            {
+                timer = SanityTickRate;
+                SanityController();
+            }
+        }
+    }
+
+    void SanityController()
+    {
+        if (isDark)
+        {
+            sanity -= drainRate;
+        }
+        else
+        {
+            sanity += drainRate * 0.5f;
+        }
+
+        sanity = Mathf.Clamp(sanity, 0f, 100f);
+    }
+
+>>>>>>> 62b2995 (sanity system added)
     void MouseLook()
     {
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;

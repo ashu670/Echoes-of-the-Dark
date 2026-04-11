@@ -648,10 +648,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 125951529}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 054779f8ad13753459919af79a069abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightManagement
   litRange: 10
+=======
+  m_Script: {fileID: 11500000, guid: 5df0c2fac8147c94e9c4a1eec9a59fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightManager
+  litRange: 9
+>>>>>>> 62b2995 (sanity system added)
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
@@ -1543,10 +1550,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 481332899}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 054779f8ad13753459919af79a069abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightManagement
   litRange: 10
+=======
+  m_Script: {fileID: 11500000, guid: 5df0c2fac8147c94e9c4a1eec9a59fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightManager
+  litRange: 9
+>>>>>>> 62b2995 (sanity system added)
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
@@ -1783,7 +1797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 695803778}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InnerWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2783,7 +2797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1274790332}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: OuterWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3600,10 +3614,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1574887047}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 054779f8ad13753459919af79a069abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightManagement
   litRange: 10
+=======
+  m_Script: {fileID: 11500000, guid: 5df0c2fac8147c94e9c4a1eec9a59fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightManager
+  litRange: 9
+>>>>>>> 62b2995 (sanity system added)
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
@@ -4562,6 +4583,7 @@ MonoBehaviour:
   noiseVal: 0
   sanityTickInterval: 1
   sanity: 100
+  SanityTickRate: 1
   drainRate: 2
   lightHit: 0
   isDead: 0
