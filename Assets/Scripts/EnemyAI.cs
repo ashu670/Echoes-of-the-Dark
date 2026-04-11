@@ -9,7 +9,6 @@ public class EnemyAI : MonoBehaviour
     public float huntSanity = 20f;
 
     public EnemyState currentState;
-    public ParanormalManager paranormalManager;
 
     // Last seen system
     bool hasLastSeen = false;
@@ -44,7 +43,7 @@ public class EnemyAI : MonoBehaviour
                 break;
 
             case EnemyState.Stalking:
-                ParanormalBehavior();
+                //ParanormalBehavior();
                 break;
 
             case EnemyState.Hunting:
@@ -152,17 +151,17 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void ParanormalBehavior()
-    {
-        // EnemyAI decides WHEN to trigger events; ParanormalManager decides WHAT event occurs
-        if (paranormalManager != null)
-        {
-            paranormalManager.TryTriggerEvent(player);
-        }
+    //void ParanormalBehavior()
+    //{
+    //    // EnemyAI decides WHEN to trigger events; ParanormalManager decides WHAT event occurs
+    //    if (paranormalManager != null)
+    //    {
+    //        paranormalManager.TryTriggerEvent(player);
+    //    }
 
-        // Keep light patrol movement so the enemy doesn't feel static
-        Patrol();
-    }
+    //    // Keep light patrol movement so the enemy doesn't feel static
+    //    Patrol();
+    //}
 }
 
 public enum EnemyState
