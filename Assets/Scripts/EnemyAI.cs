@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -162,6 +163,20 @@ public class EnemyAI : MonoBehaviour
     //    // Keep light patrol movement so the enemy doesn't feel static
     //    Patrol();
     //}
+
+    private void OnDrawGizmos()
+    {
+        Handles.color = Color.red;
+        Handles.DrawWireArc(transform.position, Vector3.up, Vector3.forward, 360f, HearingRange);
+        Handles.color = Color.green;
+        Vector3 leftBoundary = Quaternion.Euler(0, -ViewAngle, 0) * transform.forward;
+        Vector3 rightBoundary = Quaternion.Euler(0, ViewAngle, 0) * transform.forward;
+        float viewDistance = HearingRange;
+
+        Handles.DrawLine(transform.position, transform.position + leftBoundary * viewDistance);
+        Handles.DrawLine(transform.position, transform.position + rightBoundary * viewDistance);
+
+    }
 }
 
 public enum EnemyState
