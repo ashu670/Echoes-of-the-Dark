@@ -16,7 +16,7 @@ public class ParanormalManager : MonoBehaviour
         public float sanityDrainBoost = 2f;
         public float duration = 3f;
 
-        public AudioClip sound;
+        public AudioClip[] sounds;
     }
 
     public List<ParanormalEvent> events;
@@ -64,12 +64,18 @@ public class ParanormalManager : MonoBehaviour
 
     void TriggerEvent(ParanormalEvent e, PlayerSystem player)
     {
-        if (e.type == EventType.Footstep)
+        switch (e.type)
         {
-            StartCoroutine(Footstep(e, player));
+            case EventType.Footstep:
+                StartCoroutine(Footstep(e, player));
+                // sanity effect
+                player.ApplySanityEffect(e.sanityDrainBoost, e.duration);
+                break;
 
-            // sanity effect
-            player.ApplySanityEffect(e.sanityDrainBoost, e.duration);
+            case EventType.Whisper:
+                StartCoroutine(Whisper(e, player));
+                player.ApplySanityEffect(e.sanityDrainBoost, e.duration);
+                break;
         }
     }
 
@@ -92,7 +98,7 @@ public class ParanormalManager : MonoBehaviour
 
         AudioSource source = obj.AddComponent<AudioSource>();
 
-        source.clip = e.sound;
+        source.clip = e.sounds[0];
         source.spatialBlend = 1f;
         source.volume = Random.Range(0.8f, 1f);
 
@@ -102,6 +108,42 @@ public class ParanormalManager : MonoBehaviour
 
         source.Play();
 
-        Destroy(obj, e.sound.length);
+        Destroy(obj, e.sounds[0].length);
+    }
+
+    IEnumerator Whisper(ParanormalEvent e, PlayerSystem player)
+    {
+        yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
+
+        if (e.sounds == null || e.sounds.Length == 0)
+            yield break;
+
+        // pick random whisper
+        AudioClip clip = e.sounds[Random.Range(0, e.sounds.Length)];
+
+        // slight left/right offset (ear feeling)
+        float side = Random.Range(-1f, 1f);
+        Vector3 offset = player.transform.right * side * 0.5f;
+
+        Vector3 pos = player.transform.position + offset;
+
+        GameObject obj = new GameObject("WhisperSound");
+        obj.transform.position = pos;
+
+        AudioSource source = obj.AddComponent<AudioSource>();
+
+        source.clip = clip;
+        source.spatialBlend = 1f;
+
+        // 🔥 key for whisper feel
+        source.volume = Random.Range(0.2f, 0.4f);
+        source.pitch = Random.Range(0.9f, 1.1f);
+
+        source.minDistance = 0.5f;
+        source.maxDistance = 3f;
+
+        source.Play();
+
+        Destroy(obj, clip.length);
     }
 }

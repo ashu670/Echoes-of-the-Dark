@@ -1871,6 +1871,7 @@ MonoBehaviour:
   isDead: 0
   isDark: 0
   cam: {fileID: 2067964959}
+  walk: {fileID: 0}
 --- !u!143 &1682116100
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2240,7 +2241,17 @@ MonoBehaviour:
     triggerChance: 1
     sanityDrainBoost: 0.2
     duration: 5
-    sound: {fileID: 8300000, guid: 8b091de5c6fc8e242be0dd1c379876b0, type: 3}
+    sounds:
+    - {fileID: 8300000, guid: 8b091de5c6fc8e242be0dd1c379876b0, type: 3}
+  - type: 2
+    minSanity: 30
+    maxSanity: 50
+    triggerChance: 1
+    sanityDrainBoost: 0.2
+    duration: 5
+    sounds:
+    - {fileID: 8300000, guid: 8247b30f58de4fc45a992fb5fb598551, type: 3}
+    - {fileID: 8300000, guid: f35901d90148f814b9fc36e86acccd57, type: 3}
   minDelay: 5
   maxDelay: 10
 --- !u!1 &1790029651
