@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ParanormalManager : MonoBehaviour
 {
+    private static WaitForSeconds _waitForSeconds0_3 = new WaitForSeconds(0.3f);
+    private static WaitForSeconds _waitForSeconds0_5 = new WaitForSeconds(0.5f);
+
     [System.Serializable]
     public class ParanormalEvent
     {
@@ -17,6 +20,7 @@ public class ParanormalManager : MonoBehaviour
         public float duration = 3f;
 
         public AudioClip[] sounds;
+        public GameObject ghostPrefab = null;
     }
 
     public List<ParanormalEvent> events;
@@ -76,6 +80,11 @@ public class ParanormalManager : MonoBehaviour
                 StartCoroutine(Whisper(e, player));
                 player.ApplySanityEffect(e.sanityDrainBoost, e.duration);
                 break;
+
+            case EventType.Appearance:
+                StartCoroutine(Appearance(e, player));
+                player.ApplySanityEffect(e.sanityDrainBoost, e.duration);
+                break;
         }
     }
 
@@ -93,7 +102,7 @@ public class ParanormalManager : MonoBehaviour
 
         Vector3 pos = player.transform.position + dir.normalized * dist;
 
-        GameObject obj = new GameObject("FootstepSound");
+        GameObject obj = new("FootstepSound");
         obj.transform.position = pos;
 
         AudioSource source = obj.AddComponent<AudioSource>();
@@ -123,11 +132,11 @@ public class ParanormalManager : MonoBehaviour
 
         // slight left/right offset (ear feeling)
         float side = Random.Range(-1f, 1f);
-        Vector3 offset = player.transform.right * side * 0.5f;
+        Vector3 offset = 0.5f * side * player.transform.right;
 
         Vector3 pos = player.transform.position + offset;
 
-        GameObject obj = new GameObject("WhisperSound");
+        GameObject obj = new("WhisperSound");
         obj.transform.position = pos;
 
         AudioSource source = obj.AddComponent<AudioSource>();
@@ -135,7 +144,7 @@ public class ParanormalManager : MonoBehaviour
         source.clip = clip;
         source.spatialBlend = 1f;
 
-        // 🔥 key for whisper feel
+        // key for whisper feel
         source.volume = Random.Range(0.2f, 0.4f);
         source.pitch = Random.Range(0.9f, 1.1f);
 
@@ -145,5 +154,79 @@ public class ParanormalManager : MonoBehaviour
         source.Play();
 
         Destroy(obj, clip.length);
+    }
+
+    IEnumerator Appearance(ParanormalEvent e, PlayerSystem player)
+    {
+        if (e.ghostPrefab == null)
+            yield break;
+
+        Vector3 spawnDir;
+
+        // anticipate turn → spawn ahead of where player is turning
+        if (player.turnEventActive)
+        {
+            float anticipation = player.turnDirection * 35f;
+            spawnDir = Quaternion.Euler(0f, anticipation, 0f) * player.transform.forward;
+        }
+        else if (player.isEnteringRoom)
+        {
+            spawnDir = player.transform.forward;
+        }
+        else
+        {
+            spawnDir = player.transform.forward;
+        }
+
+        // slight randomness to avoid perfect placement
+        spawnDir = Quaternion.Euler(0f, Random.Range(-10f, 10f), 0f) * spawnDir;
+
+        // FAR distance (important change)
+        float distance = Random.Range(7f, 9f);
+
+        Vector3 spawnPos = player.transform.position + spawnDir.normalized * distance;
+
+        GameObject ghost = Instantiate(e.ghostPrefab, spawnPos, Quaternion.identity);
+
+        // imperfect facing (feels natural)
+        Vector3 dir = (player.transform.position - ghost.transform.position).normalized;
+        dir += Random.insideUnitSphere * 0.05f;
+        ghost.transform.forward = dir;
+
+        // HOLD (player processes presence)
+        float holdTime = Random.Range(0.5f, 0.8f);
+        float t = 0f;
+
+        while (t < holdTime)
+        {
+            t += Time.deltaTime;
+
+            // slight instability
+            ghost.transform.position += Random.insideUnitSphere * 0.01f;
+
+            yield return null;
+        }
+
+        // acceleration charge (not linear)
+        float speed = 0f;
+        float accel = 25f;
+
+        while (ghost != null)
+        {
+            speed += accel * Time.deltaTime;
+
+            ghost.transform.position = Vector3.MoveTowards(
+                ghost.transform.position,
+                player.transform.position,
+                speed * Time.deltaTime
+            );
+
+            if (Vector3.Distance(ghost.transform.position, player.transform.position) < 1.8f)
+                break;
+
+            yield return null;
+        }
+
+        Destroy(ghost);
     }
 }

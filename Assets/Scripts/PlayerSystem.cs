@@ -19,10 +19,20 @@ public class PlayerSystem : MonoBehaviour
     public float drainRate = 2f;
 
     public int lightHit = 0;
-    public bool isDead = false;
+    public bool isDead;
     public bool isDark;
 
+    // context
+    public bool isEnteringRoom;
+    public bool turnEventActive;
+    public float turnDirection; // -1 left, +1 right
+
     public Camera cam;
+
+    CharacterController controller;
+    AudioSource walk;
+
+    Vector3 inputDir;
 
     float velocityY;
     float rotX;
@@ -32,12 +42,10 @@ public class PlayerSystem : MonoBehaviour
     float extraDrain = 0f;
     float extraDrainTimer = 0f;
 
+    float lastYaw;
+    float accumulatedTurn;
+
     bool isJumped;
-
-    CharacterController controller;
-    Vector3 inputDir;
-
-    public AudioSource walk;
     float targetVolume = 0f;
 
     private void Start()
@@ -45,6 +53,7 @@ public class PlayerSystem : MonoBehaviour
         controller = GetComponent<CharacterController>();
         walk = GetComponent<AudioSource>();
 
+        lastYaw = transform.eulerAngles.y;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -53,14 +62,13 @@ public class PlayerSystem : MonoBehaviour
         if (isDead) return;
 
         MouseLook();
+        DetectTurn();
 
         ReadMovementInput(out float x, out float z);
         Vector3 desiredMove = transform.right * x + transform.forward * z;
 
         if (controller.isGrounded)
-        {
             HandleGrounded(desiredMove, x, z);
-        }
 
         HandleJump();
 
@@ -72,8 +80,33 @@ public class PlayerSystem : MonoBehaviour
         CheckLit();
         HandleSanity();
         HandleExtraDrainTimer();
+        HandleWalkAudio();
+    }
 
-        HandleWalkAudio(); // 🔥 AUDIO FIX
+    // ---------------- TURN DETECTION ----------------
+    void DetectTurn()
+    {
+        float currentYaw = transform.eulerAngles.y;
+        float delta = Mathf.DeltaAngle(lastYaw, currentYaw);
+
+        accumulatedTurn += delta;
+
+        // trigger earlier for better anticipation
+        if (Mathf.Abs(accumulatedTurn) > 45f)
+        {
+            turnEventActive = true;
+            turnDirection = Mathf.Sign(accumulatedTurn);
+
+            Invoke(nameof(ResetTurn), 0.35f);
+            accumulatedTurn = 0f;
+        }
+
+        lastYaw = currentYaw;
+    }
+
+    void ResetTurn()
+    {
+        turnEventActive = false;
     }
 
     // ---------------- LIGHT ----------------
@@ -110,9 +143,7 @@ public class PlayerSystem : MonoBehaviour
             extraDrainTimer -= Time.deltaTime;
 
             if (extraDrainTimer <= 0f)
-            {
                 extraDrain = 0f;
-            }
         }
     }
 
@@ -139,14 +170,13 @@ public class PlayerSystem : MonoBehaviour
         cam.transform.localRotation = Quaternion.Euler(rotX, 0f, 0f);
     }
 
-    // ---------------- INPUT ----------------
+    // ---------------- MOVEMENT ----------------
     void ReadMovementInput(out float x, out float z)
     {
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
     }
 
-    // ---------------- MOVEMENT ----------------
     void HandleGrounded(Vector3 moveVec, float x, float z)
     {
         isJumped = false;
@@ -168,7 +198,7 @@ public class PlayerSystem : MonoBehaviour
         else if (currentSpeed == runSpeed && isMoving)
         {
             noiseVal = Mathf.Lerp(noiseVal, 1f, Time.deltaTime * 2f);
-            targetVolume = 0f; // later we will add run audio
+            targetVolume = 0f;
         }
         else
         {
@@ -177,16 +207,10 @@ public class PlayerSystem : MonoBehaviour
         }
     }
 
-    // ---------------- AUDIO (TEMP SYSTEM) ----------------
+    // temp system (replace later with step-based)
     void HandleWalkAudio()
     {
         if (walk == null) return;
-
-        // TEMP AUDIO SYSTEM:
-        // We DO NOT play/stop repeatedly.
-        // Instead, we keep audio always playing and fade volume.
-        // This avoids restart glitches when player taps movement keys.
-        // This will be replaced later with proper step-based system.
 
         if (!walk.isPlaying)
             walk.Play();
@@ -204,16 +228,28 @@ public class PlayerSystem : MonoBehaviour
         }
     }
 
-    // ---------------- GRAVITY ----------------
     void ApplyGravity(ref Vector3 move)
     {
         if (controller.isGrounded && velocityY < 0)
-        {
             velocityY = -2f;
-        }
 
         velocityY -= gravity * Time.deltaTime;
         move.y = velocityY;
+    }
+
+    // ---------------- ROOM DETECTION ----------------
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Room"))
+        {
+            isEnteringRoom = true;
+            Invoke(nameof(ResetRoom), 0.5f);
+        }
+    }
+
+    void ResetRoom()
+    {
+        isEnteringRoom = false;
     }
 
     // ---------------- DEATH ----------------

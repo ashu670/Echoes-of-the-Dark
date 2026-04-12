@@ -9,6 +9,8 @@ public class EnemyAI : MonoBehaviour
     public float HearingRange = 10f;
     public float ViewAngle = 60f;
     public float huntSanity = 20f;
+    public float huntTimer = 20f;
+    public float huntBreakTime = 15f;
 
     public EnemyState currentState;
 
@@ -19,8 +21,11 @@ public class EnemyAI : MonoBehaviour
     // Reaction delay system (for horror feel)
     bool reacting = false;
     float reactionTimer;
+    float huntResetTimer;
+    float huntBreak;
 
     bool canSee;
+    bool huntBreakActive;
 
     NavMeshAgent agent;
     PlayerSystem player;
@@ -58,7 +63,7 @@ public class EnemyAI : MonoBehaviour
 
     void UpdateState()
     {
-        if (player.sanity < huntSanity)
+        if (player.sanity < huntSanity && !huntBreakActive)
         {
             currentState = EnemyState.Hunting;
         }
@@ -70,11 +75,23 @@ public class EnemyAI : MonoBehaviour
         {
             currentState = EnemyState.Idle;
         }
+
+        if (huntBreakActive && player.sanity < huntSanity)
+        {
+            huntBreak += Time.deltaTime;
+
+            if (huntBreak >= huntBreakTime)
+            {
+                huntBreakActive = false;
+                huntBreak = 0f;
+            }
+        }
     }
 
     void Hunt()
     {
         float distance = Vector3.Distance(transform.position, player.transform.position);
+        huntResetTimer += Time.deltaTime;
         Debug.Log(distance);
         if (distance < 1.5f)
         {
@@ -139,6 +156,13 @@ public class EnemyAI : MonoBehaviour
         else
         {
             Patrol();
+        }
+
+        if(huntResetTimer > huntTimer)
+        {
+            currentState = EnemyState.Idle;
+            huntResetTimer = 0f;
+            huntBreakActive = true;
         }
     }
 
