@@ -610,37 +610,6 @@ Transform:
   - {fileID: 1805690562}
   m_Father: {fileID: 390890860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &500673123
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 500673124}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &500673124
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 500673123}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.36391, y: 1.18094, z: -8.68341}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &707017469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1579,7 +1548,6 @@ GameObject:
   - component: {fileID: 1530616651}
   - component: {fileID: 1530616653}
   - component: {fileID: 1530616652}
-  - component: {fileID: 1530616654}
   m_Layer: 0
   m_Name: Area Light (1)
   m_TagString: Untagged
@@ -1808,22 +1776,6 @@ Light:
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &1530616654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1530616650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df0c2fac8147c94e9c4a1eec9a59fb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightManager
-  litRange: 9
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &1682116098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,7 +1789,6 @@ GameObject:
   - component: {fileID: 1682116101}
   - component: {fileID: 1682116100}
   - component: {fileID: 1682116099}
-  - component: {fileID: 1682116104}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Player
@@ -1969,103 +1920,6 @@ Transform:
   - {fileID: 2067964962}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!82 &1682116104
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1682116098}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 8b091de5c6fc8e242be0dd1c379876b0, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1735219972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2079,8 +1933,7 @@ GameObject:
   - component: {fileID: 1735219976}
   - component: {fileID: 1735219975}
   - component: {fileID: 1735219974}
-  - component: {fileID: 1735219980}
-  - component: {fileID: 1735219979}
+  - component: {fileID: 1735219973}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -2088,6 +1941,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1735219973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735219972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2a2bffb22ffb2841876eb2f25d0858d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  HearingRange: 10
+  ViewAngle: 60
+  huntSanity: 20
+  currentState: 0
 --- !u!195 &1735219974
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2205,44 +2074,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1735219979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735219972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2a2bffb22ffb2841876eb2f25d0858d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  HearingRange: 10
-  ViewAngle: 60
-  huntSanity: 20
-  currentState: 0
---- !u!114 &1735219980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735219972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7730dc303d71dfa4ab0ac99a9b895515, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ParanormalManager
-  events:
-  - type: 0
-    minSanity: 50
-    maxSanity: 70
-    triggerChance: 1
-    sanityDrainBoost: 0.2
-    duration: 5
-    sound: {fileID: 8300000, guid: 8b091de5c6fc8e242be0dd1c379876b0, type: 3}
-  minDelay: 5
-  maxDelay: 10
 --- !u!1 &1790029651
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,7 +2085,6 @@ GameObject:
   - component: {fileID: 1790029652}
   - component: {fileID: 1790029654}
   - component: {fileID: 1790029653}
-  - component: {fileID: 1790029655}
   m_Layer: 0
   m_Name: Area Light
   m_TagString: Untagged
@@ -2483,22 +2313,6 @@ Light:
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &1790029655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1790029651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df0c2fac8147c94e9c4a1eec9a59fb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightManager
-  litRange: 9
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &1803604730
 GameObject:
   m_ObjectHideFlags: 0
@@ -2510,7 +2324,6 @@ GameObject:
   - component: {fileID: 1803604731}
   - component: {fileID: 1803604733}
   - component: {fileID: 1803604732}
-  - component: {fileID: 1803604734}
   m_Layer: 0
   m_Name: Area Light (3)
   m_TagString: Untagged
@@ -2739,22 +2552,6 @@ Light:
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &1803604734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803604730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df0c2fac8147c94e9c4a1eec9a59fb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightManager
-  litRange: 9
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &1805690561
 GameObject:
   m_ObjectHideFlags: 0
@@ -3103,7 +2900,6 @@ GameObject:
   - component: {fileID: 1991100423}
   - component: {fileID: 1991100425}
   - component: {fileID: 1991100424}
-  - component: {fileID: 1991100426}
   m_Layer: 0
   m_Name: Area Light (2)
   m_TagString: Untagged
@@ -3332,22 +3128,6 @@ Light:
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &1991100426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1991100422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df0c2fac8147c94e9c4a1eec9a59fb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightManager
-  litRange: 9
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &1993179051
 GameObject:
   m_ObjectHideFlags: 0
@@ -4517,4 +4297,3 @@ SceneRoots:
   - {fileID: 1406523755}
   - {fileID: 339325935}
   - {fileID: 160221915}
-  - {fileID: 500673124}

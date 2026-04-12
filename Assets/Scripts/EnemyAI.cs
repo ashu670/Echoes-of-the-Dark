@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(ParanormalManager))]
 public class EnemyAI : MonoBehaviour
 {
     public float HearingRange = 10f;
@@ -23,11 +24,13 @@ public class EnemyAI : MonoBehaviour
 
     NavMeshAgent agent;
     PlayerSystem player;
+    ParanormalManager Manager;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerSystem>();
+        Manager = GetComponent<ParanormalManager>();
     }
 
     void Update()
@@ -35,7 +38,7 @@ public class EnemyAI : MonoBehaviour
         if (player == null || player.isDead) return;
 
         UpdateState();
-        Debug.Log("Enemy State: " + currentState);
+        //Debug.Log("Enemy State: " + currentState);
 
         switch (currentState)
         {
@@ -44,7 +47,7 @@ public class EnemyAI : MonoBehaviour
                 break;
 
             case EnemyState.Stalking:
-                //ParanormalBehavior();
+                ParanormalBehavior();
                 break;
 
             case EnemyState.Hunting:
@@ -59,7 +62,7 @@ public class EnemyAI : MonoBehaviour
         {
             currentState = EnemyState.Hunting;
         }
-        else if (player.sanity < 60f)
+        else if (player.sanity < 70f)
         {
             currentState = EnemyState.Stalking;
         }
@@ -152,17 +155,17 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    //void ParanormalBehavior()
-    //{
-    //    // EnemyAI decides WHEN to trigger events; ParanormalManager decides WHAT event occurs
-    //    if (paranormalManager != null)
-    //    {
-    //        paranormalManager.TryTriggerEvent(player);
-    //    }
+    void ParanormalBehavior()
+    {
+        // EnemyAI decides WHEN to trigger events; ParanormalManager decides WHAT event occurs
+        if (Manager != null)
+        {
+            Manager.TryTrigger(player);
+        }
 
-    //    // Keep light patrol movement so the enemy doesn't feel static
-    //    Patrol();
-    //}
+        // Keep light patrol movement so the enemy doesn't feel static
+        Patrol();
+    }
 
     private void OnDrawGizmos()
     {

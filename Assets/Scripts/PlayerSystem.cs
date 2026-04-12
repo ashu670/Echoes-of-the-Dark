@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(AudioSource))]
 public class PlayerSystem : MonoBehaviour
 {
     public float moveSpeed = 2f;
@@ -17,7 +18,7 @@ public class PlayerSystem : MonoBehaviour
     public float sanityTickInterval = 1f;
     public float drainRate = 2f;
 
-    public int lightHit = 0; // keep int (correct for your system)
+    public int lightHit = 0;
     public bool isDead = false;
     public bool isDark;
 
@@ -27,14 +28,23 @@ public class PlayerSystem : MonoBehaviour
     float rotX;
     float currentSpeed;
     float sanityTimer;
+
+    float extraDrain = 0f;
+    float extraDrainTimer = 0f;
+
     bool isJumped;
 
     CharacterController controller;
     Vector3 inputDir;
 
+    public AudioSource walk;
+    float targetVolume = 0f;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        walk = GetComponent<AudioSource>();
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -61,14 +71,19 @@ public class PlayerSystem : MonoBehaviour
 
         CheckLit();
         HandleSanity();
+        HandleExtraDrainTimer();
+
+        HandleWalkAudio(); // 🔥 AUDIO FIX
     }
 
+    // ---------------- LIGHT ----------------
     void CheckLit()
     {
         isDark = lightHit == 0;
-        lightHit = Mathf.Max(0, lightHit); // safety
+        lightHit = Mathf.Max(0, lightHit);
     }
 
+    // ---------------- SANITY ----------------
     void HandleSanity()
     {
         sanityTimer -= Time.deltaTime;
@@ -77,8 +92,10 @@ public class PlayerSystem : MonoBehaviour
         {
             sanityTimer = sanityTickInterval;
 
+            float totalDrain = Mathf.Clamp(drainRate + extraDrain, 0f, 2f);
+
             if (isDark)
-                sanity -= drainRate;
+                sanity -= totalDrain;
             else
                 sanity += drainRate * 0.5f;
 
@@ -86,6 +103,29 @@ public class PlayerSystem : MonoBehaviour
         }
     }
 
+    void HandleExtraDrainTimer()
+    {
+        if (extraDrainTimer > 0f)
+        {
+            extraDrainTimer -= Time.deltaTime;
+
+            if (extraDrainTimer <= 0f)
+            {
+                extraDrain = 0f;
+            }
+        }
+    }
+
+    public void ApplySanityEffect(float amount, float duration)
+    {
+        if (amount > extraDrain)
+        {
+            extraDrain = Mathf.Clamp(amount, 0f, 1.5f);
+            extraDrainTimer = duration;
+        }
+    }
+
+    // ---------------- CAMERA ----------------
     void MouseLook()
     {
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
@@ -99,12 +139,14 @@ public class PlayerSystem : MonoBehaviour
         cam.transform.localRotation = Quaternion.Euler(rotX, 0f, 0f);
     }
 
+    // ---------------- INPUT ----------------
     void ReadMovementInput(out float x, out float z)
     {
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
     }
 
+    // ---------------- MOVEMENT ----------------
     void HandleGrounded(Vector3 moveVec, float x, float z)
     {
         isJumped = false;
@@ -116,20 +158,43 @@ public class PlayerSystem : MonoBehaviour
 
         inputDir = moveVec.normalized;
 
-        if (currentSpeed == moveSpeed && (x != 0 || z != 0))
+        bool isMoving = (x != 0 || z != 0);
+
+        if (currentSpeed == moveSpeed && isMoving)
         {
             noiseVal = Mathf.Lerp(noiseVal, 0.5f, Time.deltaTime * 2f);
+            targetVolume = 1f;
         }
-        else if (currentSpeed == runSpeed && (x != 0 || z != 0))
+        else if (currentSpeed == runSpeed && isMoving)
         {
             noiseVal = Mathf.Lerp(noiseVal, 1f, Time.deltaTime * 2f);
+            targetVolume = 0f; // later we will add run audio
         }
         else
         {
             noiseVal = 0;
+            targetVolume = 0f;
         }
     }
 
+    // ---------------- AUDIO (TEMP SYSTEM) ----------------
+    void HandleWalkAudio()
+    {
+        if (walk == null) return;
+
+        // TEMP AUDIO SYSTEM:
+        // We DO NOT play/stop repeatedly.
+        // Instead, we keep audio always playing and fade volume.
+        // This avoids restart glitches when player taps movement keys.
+        // This will be replaced later with proper step-based system.
+
+        if (!walk.isPlaying)
+            walk.Play();
+
+        walk.volume = Mathf.Lerp(walk.volume, targetVolume, Time.deltaTime * 5f);
+    }
+
+    // ---------------- JUMP ----------------
     void HandleJump()
     {
         if (Input.GetButtonDown("Jump") && controller.isGrounded)
@@ -139,6 +204,7 @@ public class PlayerSystem : MonoBehaviour
         }
     }
 
+    // ---------------- GRAVITY ----------------
     void ApplyGravity(ref Vector3 move)
     {
         if (controller.isGrounded && velocityY < 0)
@@ -150,6 +216,7 @@ public class PlayerSystem : MonoBehaviour
         move.y = velocityY;
     }
 
+    // ---------------- DEATH ----------------
     public void Death()
     {
         isDead = true;
