@@ -454,11 +454,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1042742470181793455, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 3.6344497
+      value: 5.049752
       objectReference: {fileID: 0}
     - target: {fileID: 1042742470181793455, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 3.565
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1042742470181793455, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: m_UseBoundingSphereOverride
@@ -478,11 +478,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1042742470181793455, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: m_Shadows.m_CullingMatrixOverride.e22
-      value: 0.28449503
+      value: 0.21739131
       objectReference: {fileID: 0}
     - target: {fileID: 1042742470181793455, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: m_Shadows.m_CullingMatrixOverride.e23
-      value: -1.0284494
+      value: -1.1739131
       objectReference: {fileID: 0}
     - target: {fileID: 1042742470181793455, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: m_Shadows.m_CullingMatrixOverride.e32
@@ -515,6 +515,10 @@ PrefabInstance:
     - target: {fileID: 2918534993489416118, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: m_CustomSpotLightShadowCone
       value: 9.197914
+      objectReference: {fileID: 0}
+    - target: {fileID: 2918534993489416118, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
+      propertyPath: m_UseContactShadow.m_Override
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2974731939452542639, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: m_LocalScale.x
@@ -569,8 +573,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4860114581666399765, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860114581666399765, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.26
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 6032397661057244558, guid: 618fa749d89da714588ffdd5347d247a, type: 3}
       propertyPath: gravity
