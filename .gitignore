@@ -1,0 +1,29 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+
+# IDE
+.vs/
+*.csproj
+*.sln
+*.user
+*.userprefs
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Optional: large assets you don't need
+Assets/AllSkyFree/
+Assets/**/Demo*/
+Assets/**/Documentation*
+Assets/**/Samples*
+
+# Ignore heavy asset packs
+Assets/BK_AlchemistHouse/
+Assets/AllSkyFree/
