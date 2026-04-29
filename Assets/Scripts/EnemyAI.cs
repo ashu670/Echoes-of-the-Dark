@@ -30,6 +30,9 @@ public class EnemyAI : MonoBehaviour
     bool forcedHunt = false;
     float forcedHuntTimer = 0f;
 
+    float flickerTimer = 0f;
+    bool isVisible = false;
+
     // NEW SEARCH SYSTEM
     bool isSearching = false;
     float searchTimer = 0f;
@@ -38,12 +41,18 @@ public class EnemyAI : MonoBehaviour
     NavMeshAgent agent;
     PlayerSystem player;
     ParanormalManager Manager;
+    Renderer[] ghostRenderers;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerSystem>();
         Manager = GetComponent<ParanormalManager>();
+
+        ghostRenderers = GetComponentsInChildren<Renderer>();
+
+        // Initially invisible
+        SetGhostVisible(false);
     }
 
     void Update()
@@ -51,6 +60,7 @@ public class EnemyAI : MonoBehaviour
         if (player == null || player.isDead || GameOver) return;
 
         UpdateState();
+        HandleGhostVisual();
 
         switch (currentState)
         {
@@ -65,6 +75,34 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.Hunting:
                 Hunt();
                 break;
+        }
+    }
+
+    void SetGhostVisible(bool value)
+    {
+        isVisible = value;
+
+        foreach (var r in ghostRenderers)
+        {
+            r.enabled = value;
+        }
+    }
+
+    void HandleGhostVisual()
+    {
+        if (currentState != EnemyState.Hunting)
+        {
+            SetGhostVisible(false);
+            return;
+        }
+
+        // flicker logic
+        flickerTimer -= Time.deltaTime;
+
+        if (flickerTimer <= 0f)
+        {
+            SetGhostVisible(!isVisible);
+            flickerTimer = Random.Range(0.05f, 0.3f);
         }
     }
 
